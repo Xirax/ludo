@@ -6,13 +6,15 @@ class Requests{
 
     static PAWNS = null;
 
+    static SERVER_ADDRESS = 'https://gacek-chinol.herokuapp.com:80/';
+
     static listeners(){
 
         document.getElementById("LOGIN-FORM").addEventListener('submit', (e) => {
 
             let data = { nick: this.NICK };
         
-            fetch('http://localhost:3000/start', {
+            fetch(Requests.SERVER_ADDRESS + 'start', {
         
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
@@ -29,7 +31,7 @@ class Requests{
 
     static askForGame(){
 
-        fetch('http://localhost:3000/gameState', { method: 'GET', headers: {'Content-Type': 'application/json'} }).then(response => response.json()).then(data => {
+        fetch(Requests.SERVER_ADDRESS + 'gameState', { method: 'GET', headers: {'Content-Type': 'application/json'} }).then(response => response.json()).then(data => {
 
             let state = data.started;
             let players = data.players;
@@ -74,13 +76,13 @@ class Requests{
     }
 
 
-    static resetMe(){ window.location.href = "http://localhost:3000/resetMe"; }
+    static resetMe(){ window.location.href = Requests.SERVER_ADDRESS + "resetMe"; }
 
-    static winner(){ window.location.href = "http://localhost:3000/winner"; }
+    static winner(){ window.location.href = Requests.SERVER_ADDRESS + "winner"; }
 
     static whoWon(){
 
-        fetch('http://localhost:3000/winnerInfo', { method: 'GET', headers: {'Content-Type': 'application/json'} }).then(response => response.json()).then(data => {
+        fetch( Requests.SERVER_ADDRESS + 'winnerInfo', { method: 'GET', headers: {'Content-Type': 'application/json'} }).then(response => response.json()).then(data => {
 
                 let winID = data.winner;
 
@@ -95,7 +97,7 @@ class Requests{
 
             let data = { toggle: info };
         
-            fetch('http://localhost:3000/ready', {
+            fetch(Requests.SERVER_ADDRESS + 'ready', {
         
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
@@ -120,7 +122,7 @@ class Requests{
 
     static getRandomMove(){
         
-        fetch('http://localhost:3000/makeMove', { method: 'GET', headers: {'Content-Type': 'application/json'} }).then(response => response.json()).then(data => {
+        fetch(Requests.SERVER_ADDRESS + 'makeMove', { method: 'GET', headers: {'Content-Type': 'application/json'} }).then(response => response.json()).then(data => {
 
             Requests.PAWNS = data;
 
@@ -153,7 +155,7 @@ class Requests{
 
         document.getElementsByClassName('dice-box')[0].innerHTML = '<img id="dice" src="../imgs/dice/d1.png" /> Losuj!';
 
-        fetch('http://localhost:3000/selectedPawn', {
+        fetch(Requests.SERVER_ADDRESS + 'selectedPawn', {
 
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
@@ -165,7 +167,7 @@ class Requests{
 
     static dice(callback){
 
-        fetch('http://localhost:3000/dice', { method: 'GET', headers: {'Content-Type': 'application/json'} }).then(response => response.json()).then(data => {
+        fetch(Requests.SERVER_ADDRESS + 'dice', { method: 'GET', headers: {'Content-Type': 'application/json'} }).then(response => response.json()).then(data => {
 
             if(data.throw) callback();
         });
@@ -175,7 +177,7 @@ class Requests{
 
     static boardState(){
 
-        fetch('http://localhost:3000/boardState', { method: 'GET', headers: {'Content-Type': 'application/json'} }).then(response => response.json()).then(data => {
+        fetch(Requests.SERVER_ADDRESS + 'boardState', { method: 'GET', headers: {'Content-Type': 'application/json'} }).then(response => response.json()).then(data => {
 
             let all_pawns = data.board_state;
 

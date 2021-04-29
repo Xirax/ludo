@@ -6,7 +6,7 @@ class Requests{
 
     static PAWNS = null;
 
-    static SERVER_ADDRESS = 'https://gacek-chinol.herokuapp.com:80/';
+    static SERVER_ADDRESS = 'https://gacek-chinol.herokuapp.com/';
 
     static listeners(){
 

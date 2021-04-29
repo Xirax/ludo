@@ -1,0 +1,48 @@
+<html>
+
+<head>
+  <title>Chińczyk the Game </title>
+
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
+
+<body onload="initGame(), game(), redraw()">
+  
+    <div id="pawns">
+      <div id="cursor-pawn"></div>
+
+    </div>
+
+    <canvas id="game-board">
+
+    </canvas>
+
+    <div class="dice-box" onclick="throwPrepare()">
+
+      <img id="dice" src="../imgs/dice/d1.png" />
+
+      Losuj!
+    </div>
+
+
+    <div class="users">
+
+        <div id="timer"></div>
+
+        <div class="user-box" id="U1"></div>
+        <div class="user-box" id="U2"></div>
+        <div class="user-box" id="U3"></div>
+        <div class="user-box" id="U4"></div>
+
+        <button class="switch sunactive" id="status" onclick="toggleSwitch()"> Chcę już grać! </button>
+
+    </div>
+
+</body>
+<script src='../js/speach.js'></script>
+<script src='../js/board.js'></script>
+<script src='../js/pawns.js'></script>
+<script src='../js/drawingHandler.js'></script>
+<script src='../js/requests.js'></script>
+<script src='../js/requestsHandler.js'></script>
+</html>

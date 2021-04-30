@@ -6,22 +6,32 @@ class Requests{
 
     static PAWNS = null;
 
-    static SERVER_ADDRESS = 'https://gacek-chinol.herokuapp.com/';
+    static SERVER_ADDRESS = ''; //'https://gacek-chinol.herokuapp.com/';
+
 
     static listeners(){
 
         document.getElementById("LOGIN-FORM").addEventListener('submit', (e) => {
 
             let data = { nick: this.NICK };
+
+            console.log(data.nick);
+
+            if(data.nick){
+                fetch(Requests.SERVER_ADDRESS + 'start', {
         
-            fetch(Requests.SERVER_ADDRESS + 'start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json'},
+            
+                    body: JSON.stringify(data),
+            
+                }).then(response => response.json())
+            }
+            else{
+                document.getElementById('bad-login').innerText = "Nie możesz być pustym ciągiem, chyba nie czujesz się nikim? :)"
+            }
         
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json'},
-        
-                body: JSON.stringify(data),
-        
-            }).then(response => response.json())
+            
         });
         
         
@@ -39,6 +49,11 @@ class Requests{
 
             console.log(data);
 
+            for(let i=0; i<4; i++){ 
+                let ID = "U" + (i + 1);
+                document.getElementById(ID).innerText = '';
+            }
+
             for(let i=0; i<players.length; i++){
 
                 let ID = "U" + (i + 1);
@@ -48,6 +63,8 @@ class Requests{
 
 
             if(state){
+
+                document.getElementById('status').style.display = 'none';
 
                 if(players.length < 2) Requests.resetMe();        
                 else{

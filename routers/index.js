@@ -28,7 +28,7 @@ router.post('/start', function(req, res){
     
     
 
-    if(room_color > 3){
+    if(room_color > 3 || rooms[room_index].started){
       rooms.push(ServerFunc.roomData(++room_index));
       room_color = 0;
     } 
@@ -43,7 +43,7 @@ router.post('/start', function(req, res){
     rooms[room_index].players.push(data.nick);
     rooms[room_index].ready.push(false);
     rooms[room_index].pawns.push(ServerFunc.newPlayerPawns());
-
+    rooms[room_index].pl_count += 1;
 
     let res_data = {
       nick : req.session.nick,
@@ -70,12 +70,17 @@ router.get('/gameState', function(req, res){
       let time = ServerFunc.time(rooms[rindex].player_time);
 
       if(time <= 0 && rooms[rindex].started){
-        rooms[rindex].players.splice(rooms[rindex].moving, 1);
+        
+        rooms[rindex].players[rooms[rindex].moving] = '';
+        rooms[rindex].pl_count -= 1;
         rooms[rindex].moving++;
+
+        while(rooms[rindex].moving < rooms[rindex].players.length && rooms[rindex].players[rooms[rindex].moving] == '') rooms[rindex].moving++;
         if(rooms[rindex].moving >= rooms[rindex].players.length) rooms[rindex].moving = 0;
+
         rooms[rindex].player_time = Date.now();
 
-        if(rooms[rindex].players.length < 2) rooms[rindex].reset = true;
+        if(rooms[rindex].pl_count < 2) rooms[rindex].reset = true;
       }
 
 
@@ -98,7 +103,8 @@ router.get('/resetMe', function(req, res){
   if(req.session.nick){
     let rindex = req.session.room;
 
-    rooms[rindex].players = rooms[rindex].players.filter(function(el) { return el !== req.session.nick; });
+    rooms[rindex].players[req.session.color] = '';
+    rooms[rindex].pl_count -= 1;
   
     rooms[rindex].started = false;
   
@@ -161,7 +167,7 @@ router.get('/makeMove', function(req, res){
 
       if(pawns[i].distance == 0){
 
-        if(dice_result == 1 || dice_result == 6 || dice_result == 10) pawns[i].move = 1;
+        if(dice_result == 1 || dice_result == 6 || dice_result == 7) pawns[i].move = 1;
         else pawns[i].move = 0;
       }
       else{
@@ -217,15 +223,17 @@ router.post('/selectedPawn', function(req, res){
 
     rooms[rindex].player_time = Date.now();
 
+    while(rooms[rindex].moving < rooms[rindex].players.length && rooms[rindex].players[rooms[rindex].moving] == '') rooms[rindex].moving++;
     if(rooms[rindex].moving >= rooms[rindex].players.length) rooms[rindex].moving = 0;
+
     req.session.dice = true;
 
 
-    for(let i=0; i<rooms[rindex].players.length; i++){
+    for(let i=0; i<rooms[rindex].pl_count; i++){
 
       if(i == cindex) i++;
 
-      if(i >= rooms[rindex].players.length) break;
+      if(i >= rooms[rindex].pl_count) break;
 
       let hunter_distance = rooms[rindex].pawns[cindex][data.pawn].distance + (cindex * 10);
 
@@ -269,7 +277,8 @@ router.get('/winnerInfo', function(req, res){
 
   let rindex = req.session.room;
 
-  rooms[rindex].players = rooms[rindex].players.filter(function(el) { return el !== req.session.nick; });
+  rooms[rindex].players[req.session.color] = '';
+  rooms[rindex].pl_count -= 1;
   
   rooms[rindex].started = false;
   

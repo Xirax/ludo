@@ -23,6 +23,13 @@ body{
     z-index: -1;
 }
 
+#bad-login{
+    margin-top: 15px;
+    margin-left: 15px;
+
+    color: red;
+}
+
 .users{
     position: absolute;
 

@@ -74,17 +74,10 @@ class Pawns {
                     posAfter -= 1;
     
                     let offsets = [0, 10, 20, 30];
-
-                    if(posAfter != 0){
-
-                    }
     
                     posAfter += offsets[color];
     
                     let newPos = Pawns.anchor(posAfter, color);
-
-                    console.log(" --- NEW POS ---");
-                    console.log(newPos);
     
                     let cpawn = document.getElementById('cursor-pawn');
     
@@ -92,7 +85,7 @@ class Pawns {
     
                     let imgN = "p" + clr_fixed + "blink.png";
     
-                    let img = '<img src="../imgs/pawns/' + imgN + '" />'
+                    let img = '<img src="../imgs/pawns/' + imgN + '" />';
     
                     cpawn.style.display = 'inline-block';
                     cpawn.style.top = newPos.y * 62 + 30;
@@ -150,19 +143,23 @@ class Pawns {
 
         let mat = {pos: pos};
 
-        if(mat.pos < 40 + (c * 10)){
-            newPos.x += Pawns.translatePos(mat, 2);
-            newPos.y += Pawns.translatePos(mat, 4);
-            newPos.x += Pawns.translatePos(mat, 4);
-            newPos.y += Pawns.translatePos(mat, 2);
-            newPos.x += Pawns.translatePos(mat, -4);
-            newPos.y += Pawns.translatePos(mat, 4);
-            newPos.x += Pawns.translatePos(mat, -2);
-            newPos.y += Pawns.translatePos(mat, -4);
-            newPos.x += Pawns.translatePos(mat, -4);
-            newPos.y += Pawns.translatePos(mat, -2);
-            newPos.x += Pawns.translatePos(mat, 4);
-            newPos.y += Pawns.translatePos(mat, -4);
+        let limit = 40 + (c * 10);
+
+        if(mat.pos < limit){
+            while(mat.pos > 0){
+                newPos.x += Pawns.translatePos(mat, 2);
+                newPos.y += Pawns.translatePos(mat, 4);
+                newPos.x += Pawns.translatePos(mat, 4);
+                newPos.y += Pawns.translatePos(mat, 2);
+                newPos.x += Pawns.translatePos(mat, -4);
+                newPos.y += Pawns.translatePos(mat, 4);
+                newPos.x += Pawns.translatePos(mat, -2);
+                newPos.y += Pawns.translatePos(mat, -4);
+                newPos.x += Pawns.translatePos(mat, -4);
+                newPos.y += Pawns.translatePos(mat, -2);
+                newPos.x += Pawns.translatePos(mat, 4);
+                newPos.y += Pawns.translatePos(mat, -4);
+            }
         }
         else{
             let docks = [

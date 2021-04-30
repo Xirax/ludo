@@ -3,7 +3,7 @@ class ServerFunc {
 
     static roomData(ID){
 
-        return { roomID: ID, players: [], ready: [], moving: 0, pawns: [], started: false, player_time: -1, reset: false, winner: null};
+        return { roomID: ID, players: [], ready: [], moving: 0, pawns: [], started: false, player_time: -1, reset: false, winner: null, pl_count: 0};
       }
       
           
@@ -18,7 +18,7 @@ class ServerFunc {
     static time(old){ 
 
         let time_left = Date.now() - old; 
-        return 70 - Math.round(time_left / 1000);
+        return 15 - Math.round(time_left / 1000);
     }
 }
 
